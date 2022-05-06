@@ -49,7 +49,7 @@ for Frame in range(len(Frames)):
 	stress=np.mean(RFarray)/CrossSectionalArea
 	strain=np.mean(Uarray)/(length*2)
 	xydata.append((strain,stress))
-""" 
+# """ 
 # Export fundamental information
 file_fundamentalinfo='FundamentalInfo'
 # Write the fundamental information to txt file
@@ -60,18 +60,17 @@ with open('{}.txt'.format(file_fundamentalinfo),'w') as FI:
     FI.write('Height:{}\n'.format(height_plate))
     FI.write('Architecture Function:Z={A}sin({omega}x+{FirstPhase})+{z0}'.format(A=(height_plate/2),omega=omega,FirstPhase=Firstphase,z0=(height_plate/2)))
     # FI.write() 
-"""
+# """
 # """ 
 # Export Data
 file_data='Data'
-with open('{}.txt'.format(file_data),'w') as FD:
-    FD.write("Strain Stress\n")
-	for i in range(len(xydata)):
-		FD.write(xydata[i][0]) #strain
-		FD.write(" ")
-		FD.write(xydata[i][1]) #stress
-	
-    
+with open('{}.txt'.format(file_data),'w') as DA:
+    DA.write('Strain Stress\n')
+    for i in range(len(xydata)):
+        DA.write(str(xydata[i][0]))
+        DA.write(' ')
+        DA.write(str(xydata[i][1]))
+        DA.write('\n')
 # """
 """ 
 # Export Data
