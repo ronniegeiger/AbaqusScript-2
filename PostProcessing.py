@@ -8,7 +8,7 @@ from odbAccess import *
 import visualization
 import regionToolset
 import numpy as np
-from openpyxl import *
+# from openpyxl import *
 import datetime
 
 # Initialize Variables
