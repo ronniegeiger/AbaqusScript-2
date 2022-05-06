@@ -139,6 +139,21 @@ for temp_y in range(len(yarray)):
 				thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', 
 				axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
 '''
+# '''
+for temp_y in range(2):
+	for temp_x in range(len(xarray)):
+		temp_n = (temp_y * len(xarray)) + temp_x
+		cells_part=PartPlate.cells.findAt(((CoordinateLocate[temp_n][0], CoordinateLocate[temp_n][1],height_plate/2),),)
+		region=regionToolset.Region(cells=cells_part)
+		for num_ply in range(num_plies):
+			if (num_ply+1) == CoordinateLocate[temp_n][3]:
+				compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format((num_plies * temp_n) + num_ply + 1), region=region, material=MatrixMaterial, thicknessType=SPECIFY_THICKNESS, 
+				thickness=0.1, orientationType=ANGLE_0,axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
+			else:
+				compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format((num_plies * temp_n) + num_ply + 1), region=region, material=ReinforceMaterial, thicknessType=SPECIFY_THICKNESS, 
+				thickness=0.1, orientationType=ANGLE_0,axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
+# '''
+# The influence of judge is limited.
 """  
 # This part is for Test the influence of judge sentence
 a=time.time()
@@ -155,7 +170,7 @@ for temp_y in range(2):
 print(time.time()-a)
 # 338s
 """
-# '''
+'''
 a=time.time()
 for temp_y in range(2):
 	for temp_x in range(len(xarray)):
@@ -172,4 +187,5 @@ for temp_y in range(2):
 				thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', 
 				axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
 print(time.time()-a)
-# '''
+# 344s
+'''
