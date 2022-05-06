@@ -69,7 +69,7 @@ with open('{}.txt'.format(file_data),'w') as FD:
 	FD.write()
     
 """
-
+""" 
 # Export Data
 wb = Workbook()
 sheetname=wb.sheetnames[0]
@@ -82,3 +82,5 @@ for i in range(len(xydata)):
     sheetname['{}{}'.format('A',num)]=xydata[i][0]
     sheetname['{}{}'.format('B',num)]=xydata[i][1]
 wb.save("data.xlsx")
+"""
+
