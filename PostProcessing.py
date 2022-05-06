@@ -61,14 +61,18 @@ with open('{}.txt'.format(file_fundamentalinfo),'w') as FI:
     FI.write('Architecture Function:Z={A}sin({omega}x+{FirstPhase})+{z0}'.format(A=(height_plate/2),omega=omega,FirstPhase=Firstphase,z0=(height_plate/2)))
     # FI.write() 
 """
-""" 
+# """ 
 # Export Data
 file_data='Data'
 with open('{}.txt'.format(file_data),'w') as FD:
     FD.write("Strain Stress\n")
-	FD.write()
+	for i in range(len(xydata)):
+		FD.write(xydata[i][0]) #strain
+		FD.write(" ")
+		FD.write(xydata[i][1]) #stress
+	
     
-"""
+# """
 """ 
 # Export Data
 wb = Workbook()
@@ -83,5 +87,3 @@ for i in range(len(xydata)):
     sheetname['{}{}'.format('B',num)]=xydata[i][1]
 wb.save("data.xlsx")
 """
-
-test 
