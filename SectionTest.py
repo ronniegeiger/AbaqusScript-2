@@ -15,6 +15,7 @@ import numpy as np
 length = 38.0	
 width = 12.5
 height_plate = 3.0
+MidHeight=height_plate/2
 spacing_y=0.5
 spacing_x = 0.5
 num_DatumPlanes_y = int((width /spacing_y) -1.0)
@@ -141,10 +142,12 @@ for temp_y in range(len(yarray)):
 '''
 # '''
 a=time.time()
+temp_allY=len(yarray)
+temp_allX=len(xarray)
 for temp_y in range(2):
-	for temp_x in range(len(xarray)):
-		temp_n = (temp_y * len(xarray)) + temp_x
-		cells_part=PartPlate.cells.findAt(((CoordinateLocate[temp_n][0], CoordinateLocate[temp_n][1],height_plate/2),),)
+	for temp_x in range(temp_allX):
+		temp_n = (temp_y * temp_allX) + temp_x
+		cells_part=PartPlate.cells.findAt(((CoordinateLocate[temp_n][0], CoordinateLocate[temp_n][1],MidHeight),),)
 		region=regionToolset.Region(cells=cells_part)
 		for num_ply in range(num_plies):
 			nam_ply=(num_plies*temp_n)+num_ply+1
@@ -154,6 +157,8 @@ for temp_y in range(2):
 				compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format(nam_ply), region=region, material=ReinforceMaterial,thicknessType=SPECIFY_THICKNESS,thickness=0.1, orientationType=ANGLE_0,axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
 print(time.time()-a)
 # '''
+# 3 rows 733s
+# Time after add temporary variable: 5.5s
 '''
 a=time.time()
 for temp_y in range(2):
