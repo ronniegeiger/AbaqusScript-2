@@ -157,6 +157,7 @@ for temp_y in range(2):
 				compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format(nam_ply), region=region, material=ReinforceMaterial,thicknessType=SPECIFY_THICKNESS,thickness=0.1, orientationType=ANGLE_0,axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
 print(time.time()-a)
 # '''
+# 2 rows 312s
 # 3 rows 733s
 # Time after add temporary variable: 5.5s
 '''
