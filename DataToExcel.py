@@ -32,3 +32,4 @@ for i in range(2,len(Data)):
     ws.cell(row=i,column=1).value=pt1[i-2]
     ws.cell(row=i,column=2).value=pt2[i-2]
 wb.save("Data.xlsx")
+# Finish
