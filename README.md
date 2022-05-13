@@ -7,3 +7,4 @@
 3. DataToExcel.py:由于Data.txt文件转换需要openpyxl库，而目前没有解决abaqus运行脚本对第三方库报错的问题，因此，需要单独将Data.txt转换为Excel表格写一个脚本。
 # 环境依赖
 本库中的脚本基于python 3.9.6版本开发的，虽然abaqus的python版本为2.7，但目前的脚本并未出现兼容问题，因此可以正常使用，如果报错可以考虑此问题。
+# 
