@@ -10,6 +10,7 @@ from odbAccess import *
 import visualization
 import regionToolset
 import numpy as np
+import os
 
 ## initial variables
 length = 38.0	
@@ -216,6 +217,10 @@ mdb.Job(name='Job-1', model='Model-1', description='', type=ANALYSIS,
         numGPUs=0)
 mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
 
+# Find ODB file
+for i in os.listdir():
+	while(i==odbfilename):
+		break
 #Postprocessing
 ## Two methods of opening odb file
 # 1; require "import odbAccess"
