@@ -74,9 +74,9 @@ for i in range(len(da)):
 	num = i+2
 	PartPlate.PartitionCellByDatumPlane(datumPlane=da[num], cells=cy)
 # Display the view of PartPlate in Front
-# session.viewports['Viewport: 1'].setValues(displayedObject = PartPlate)
-# session.viewports['Viewport: 1'].view.setValues(session.views['Front'])
-# session.viewports['Viewport: 1'].partDisplay.geometryOptions.setValues(datumPlanes=OFF)
+session.viewports['Viewport: 1'].setValues(displayedObject = PartPlate)
+session.viewports['Viewport: 1'].view.setValues(session.views['Front'])
+session.viewports['Viewport: 1'].partDisplay.geometryOptions.setValues(datumPlanes=OFF)
 # Highlight cy[n] to indicate the sequence of cells
 #for i in range(len(cy)):
 #	highlight(cy[i])
@@ -131,11 +131,6 @@ for temp_y in range(len(yarray)):
 		cells_part=PartPlate.cells.findAt(((CoordinateLocate[temp_n][0], CoordinateLocate[temp_n][1],height_plate/2),),)
 		region=regionToolset.Region(cells=cells_part)
 		for num_ply in range(num_plies):
-			if (num_ply+1) == CoordinateLocate[temp_n][3]:
-				compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format((num_plies * temp_n) + num_ply + 1), region=region, material=MatrixMaterial, thicknessType=SPECIFY_THICKNESS, 
-				thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', 
-				axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
-			else:
 				compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format((num_plies * temp_n) + num_ply + 1), region=region, material=ReinforceMaterial, thicknessType=SPECIFY_THICKNESS, 
 				thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', 
 				axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
@@ -216,7 +211,6 @@ mdb.Job(name='Job-1', model='Model-1', description='', type=ANALYSIS,
         scratch='', resultsFormat=ODB, multiprocessingMode=DEFAULT, numCpus=10, 
         numGPUs=0)
 mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
-mdb.jobs['Job-1'].waitForCompletion()
 
 # Find ODB file
 for i in os.listdir():
