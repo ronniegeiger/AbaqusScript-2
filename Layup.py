@@ -213,8 +213,7 @@ mdb.Job(name='Job-1', model='Model-1', description='', type=ANALYSIS,
         memoryUnits=PERCENTAGE, getMemoryFromAnalysis=True, 
         explicitPrecision=SINGLE, nodalOutputPrecision=SINGLE, echoPrint=OFF, 
         modelPrint=OFF, contactPrint=OFF, historyPrint=OFF, userSubroutine='', 
-        scratch='', resultsFormat=ODB, multiprocessingMode=DEFAULT, numCpus=10, 
-        numGPUs=0)
+        scratch='', resultsFormat=ODB, multiprocessingMode=DEFAULT, numCpus=1,numGPUs=0)
 mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
 mdb.jobs['Job-1'].waitForCompletion()
 
