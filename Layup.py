@@ -257,6 +257,6 @@ xy1 = session.xyDataObjects['StreesStrainCurves']
 c1 = session.Curve(xyData=xy1)
 chart.setValues(curvesToPlot=(c1, ), )
 session.viewports['Viewport: 1'].setValues(displayedObject=xyplot)
-session.printToFile(fileName='C:/temp/LayupScript/StressStrainCurve', format=PNG, 
+session.printToFile(fileName='./StressStrainCurve', format=PNG, 
         canvasObjects=(session.viewports['Viewport: 1'], ))
-mdb.saveAs(pathName='C:/temp/LayupScript/Jobs/Job1')
+mdb.saveAs(pathName='./Job1')
