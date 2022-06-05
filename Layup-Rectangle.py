@@ -114,6 +114,11 @@ for ycoordinate in range(len(yarray)):
 			else:
 				continue
 		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],zarray[xcoordinate],ply)) 
+'''
+period = 2 * spacing_x
+z=height_plate/2
+
+'''
 #CompositeLayup Predefine
 compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=CONTINUUM_SHELL, 
         symmetric=False)
