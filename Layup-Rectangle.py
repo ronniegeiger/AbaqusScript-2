@@ -117,6 +117,7 @@ for ycoordinate in range(len(yarray)):
 '''
 period = 2 * spacing_x
 z=height_plate/2
+x=
 
 '''
 #CompositeLayup Predefine
