@@ -217,10 +217,7 @@ mdb.Job(name='Job-1', model='Model-1', description='', type=ANALYSIS,
 mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
 mdb.jobs['Job-1'].waitForCompletion()
 
-# Find ODB file
-for i in os.listdir():
-	while(i==odbfilename):
-		break
+
 #Postprocessing
 ## Two methods of opening odb file
 # 1; require "import odbAccess"
