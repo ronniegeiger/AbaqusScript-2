@@ -24,8 +24,7 @@ num_plies = 11
 ply=0
 sectionpoint=3
 #
-omega=1.0
-Firstphase=1.57
+Period=11
 #Declare material
 ReinforceMaterial = 'CompositeLaminates'
 MatrixMaterial = 'AluminumAlloy_6061'
@@ -98,26 +97,20 @@ layupOrientation = None
 #		Region.append(region)
 
 #Coordinate computation of x,y and z
-zarray=height_plate/2
+zarray=[]
 xarray=np.arange(spacing_x/2,length,spacing_x)
 yarray=np.arange(spacing_y/2,width,spacing_y)
-T=4*spacing_x
-Flag_1=spacing_x/2
-Flag_2=spacing_x+spacing_x/2
-Flag_3=2*spacing_x+spacing_x/2
-Flag_4=3*spacing_x+spacing_x/2
+T=Period*spacing_x
+for i in range(len(xarray)):
+		zvalue=(((xarray[i]%T)-0.25)/spacing_x)+1
+		zarray.append(zvalue)
 #Combine the tri-axis coordinates
 CoordinateLocate=[]
 for ycoordinate in range(len(yarray)):
 	for xcoordinate in range(len(xarray)):
-		if(xarray[xcoordinate]%T == Flag_1 or xarray[xcoordinate]%T == Flag_3):
-			flag='Full'
-		elif(xarray[xcoordinate]%T == Flag_2):
-			flag='Bottom'
-		elif(xarray[xcoordinate]%T == Flag_4):
-			flag='Top'
-		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],zarray,flag))
-
+		zsequence=(((xarray[xcoordinate]%T)-0.25)/spacing_x)+1
+		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],zarray[zsequence]))
+# Architecture Description Done
 #CompositeLayup Predefine
 compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=CONTINUUM_SHELL, 
         symmetric=False)
@@ -134,23 +127,18 @@ for temp_y in range(len(yarray)):
 		temp_n = (temp_y * len(xarray)) + temp_x
 		cells_part=PartPlate.cells.findAt(((CoordinateLocate[temp_n][0], CoordinateLocate[temp_n][1],height_plate/2),),)
 		region=regionToolset.Region(cells=cells_part)
-		if CoordinateLocate[temp_n][3] == 'Full':
+		if CoordinateLocate[temp_n][2] == 11:
 			for num_ply in range(num_plies):
 				compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format((num_plies * temp_n) + num_ply + 1), region=region, material=MatrixMaterial, thicknessType=SPECIFY_THICKNESS, 
 				thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', 
 				axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
-		elif CoordinateLocate[temp_n][3] == 'Bottom':
+		else:
 			for num_ply in range(num_plies):
-				if (num_ply+1) == 1:
-					compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format((num_plies * temp_n) + num_ply + 1), region=region, material=MatrixMaterial, thicknessType=SPECIFY_THICKNESS,thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
+				if (num_ply+1) == CoordinateLocate[temp_n][2]:
+					compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format((num_plies * temp_n) + num_ply + 1), region=region, material=MatrixMaterial, thicknessType=SPECIFY_THICKNESS, thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
 				else:
-					compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format((num_plies * temp_n) + num_ply + 1), region=region, material=ReinforceMaterial, thicknessType=SPECIFY_THICKNESS,thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='',axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
-		elif CoordinateLocate[temp_n][3] == 'Top':
-				if (num_ply+1) == num_plies:
-					compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format((num_plies * temp_n) + num_ply + 1), region=region, material=MatrixMaterial, thicknessType=SPECIFY_THICKNESS,thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
-				else:
-					compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format((num_plies * temp_n) + num_ply + 1), region=region, material=ReinforceMaterial, thicknessType=SPECIFY_THICKNESS,thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
-#'''
+					compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format((num_plies * temp_n) + num_ply + 1), region=region, material=ReinforceMaterial, thicknessType=SPECIFY_THICKNESS, 	thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
+# '''
 
 # Create Instance
 AssemblyPlate=myModel.rootAssembly
