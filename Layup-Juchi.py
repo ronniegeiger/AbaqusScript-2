@@ -108,7 +108,7 @@ for i in range(len(xarray)):
 CoordinateLocate=[]
 for ycoordinate in range(len(yarray)):
 	for xcoordinate in range(len(xarray)):
-		zsequence=(((xarray[xcoordinate]%T)-0.25)/spacing_x)+1
+		zsequence=int((((xarray[xcoordinate]%T)-0.25)/spacing_x)+1)
 		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],zarray[zsequence]))
 # Architecture Description Done
 #CompositeLayup Predefine
