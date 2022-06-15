@@ -13,7 +13,7 @@ import numpy as np
 import os
 
 ## initial variables
-length = 38.0	
+length = 38.0
 width = 12.5
 height_plate = 3.0
 spacing_y=0.5
@@ -101,9 +101,7 @@ layupOrientation = None
 zarray=[]
 xarray=np.arange(spacing_x/2,length,spacing_x)
 yarray=np.arange(spacing_y/2,width,spacing_y)
-for i in range(len(xarray)):
-	zvalue=(height_plate/2)*sin(omega*xarray[i]+Firstphase) + (height_plate/2)#describing function
-	zarray.append(zvalue)
+
 #Combine the tri-axis coordinates
 CoordinateLocate=[]
 for ycoordinate in range(len(yarray)):
