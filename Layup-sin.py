@@ -13,7 +13,7 @@ import numpy as np
 import os
 
 ## initial variables
-length = 38.0	
+length = 38.0
 width = 12.5
 height_plate = 3.0
 spacing_y=0.5
@@ -45,7 +45,8 @@ seedConstraint=FIXED
 #postprocessing
 odbfilename = 'Job-1.odb'
 CrossSectionalArea= width * height_plate
-
+# Load
+xDis=5
 # Create model
 if mdb.models.has_key("Model-1"):
     myModel = mdb.models["Model-1"]
@@ -57,19 +58,22 @@ SketchPlate.rectangle(point1=(0,0), point2=(length, width))
 PartPlate = myModel.Part(name = "Part-plate", dimensionality=THREE_D, type=DEFORMABLE_BODY)
 PartPlate.BaseSolidExtrude(sketch=SketchPlate, depth=height_plate)
 # The actual index number of part
-e=PartPlate.edges
+cy=PartPlate.cells
+edge=PartPlate.edges
+vertice=PartPlate.vertices
+face=PartPlate.faces
 da=PartPlate.datums
 # Create Datum planes
 for num_DatumPlane_y in range(num_DatumPlanes_y):
 	yOffsetValue = (num_DatumPlane_y + 1) * spacing_y
 	pointOnY = (18,yOffsetValue,height_plate/2)
-	PartPlate.DatumPlaneByPointNormal(point=pointOnY, normal=e[2])
+	PartPlate.DatumPlaneByPointNormal(point=pointOnY, normal=edge[2])
 for num_DatumPlane_x in range(num_DatumPlanes_x):
 	xOffsetValue = (num_DatumPlane_x + 1) * spacing_x
 	pointOnX = (xOffsetValue,6.25,height_plate/2)
-	PartPlate.DatumPlaneByPointNormal(point=pointOnX, normal=e[11])
+	PartPlate.DatumPlaneByPointNormal(point=pointOnX, normal=edge[11])
 # Partition Cells
-cy=PartPlate.cells
+
 for i in range(len(da)):
 	num = i+2
 	PartPlate.PartitionCellByDatumPlane(datumPlane=da[num], cells=cy)
@@ -86,7 +90,13 @@ for i in range(len(da)):
 from material import createMaterialFromDataString
 createMaterialFromDataString('Model-1', 'CompositeLaminates', '2019', 
         """{'materialIdentifier': '', 'description': '', 'elastic': {'temperatureDependency': OFF, 'moduli': LONG_TERM, 'noCompression': OFF, 'noTension': OFF, 'dependencies': 0, 'table': ((162000.0, 14900.0, 14900.0, 0.283, 0.283, 0.386, 5.7, 5.7, 5.4),), 'type': ENGINEERING_CONSTANTS}, 'name': 'CompositeLaminates'}""")
-createMaterialFromDataString('Model-1', 'AluminumAlloy_6061', '2019',"""{'name': 'AluminumAlloy_6061', 'elastic': {'temperatureDependency': OFF, 'moduli': LONG_TERM, 'noCompression': OFF, 'noTension': OFF, 'dependencies': 0, 'table': ((70000.0, 0.35),), 'type': ISOTROPIC}, 'density': {'temperatureDependency': OFF, 'table': ((2.7e-06,),), 'dependencies': 0, 'fieldName': '', 'distributionType': UNIFORM}, 'plastic': {'temperatureDependency': OFF, 'strainRangeDependency': OFF, 'rate': OFF, 'dependencies': 0, 'hardening': ISOTROPIC, 'dataType': HALF_CYCLE, 'table': ((200.0, 0.0), (246.0, 0.0235), (294.0, 0.0474), (374.0, 0.0935), (437.0, 0.1377), (480.0, 0.18)), 'numBackstresses': 1}, 'materialIdentifier': '', 'description': ''}""")
+createMaterialFromDataString('Model-1', 'AluminumAlloy_6061', '2019',"""{'name': 'AluminumAlloy_6061', 'elastic': {'temperatureDependency': OFF, 'moduli': LONG_TERM, 'noCompression': OFF, 'noTension': OFF, 'dependencies': 0, 'table': ((70000.0, 0.35),), 'type': ISOTROPIC}, 'density': {'temperatureDependency': OFF, 'table': ((2.7e-06,),), 'dependencies': 0, 'fieldName': '', 'distributionType': UNIFORM}, 'materialIdentifier': '', 'description': ''}""")
+# Create Datum csys
+v_origin = (0.0, 0.0, 0.0)
+v_xaxis = (length, 0.0, 0.0)
+v_yaxis = (length, width, 0.0)
+PartPlate.DatumCsysByThreePoints(origin=v_origin, point1=v_xaxis, point2=v_yaxis,name='Datum csys-2', coordSysType=CARTESIAN)
+os._exit
 #
 layupOrientation = None
 #cells1 = PartPlate.cells.findAt(((5.5, 8.3, 1.5),),)
@@ -145,16 +155,9 @@ for temp_y in range(len(yarray)):
 AssemblyPlate=myModel.rootAssembly
 InstancePlate=AssemblyPlate.Instance(name=InstanceName, part=PartPlate, dependent=DependentState)
 # Create Step
-myModel.StaticStep(name=StaticStepName, previous=PreviousStepName, 
-        maxNumInc=MaxNumInc, initialInc=InitialInc, minInc=MinInc, maxInc=MaxInc)
-#test
-'''
-FOR=[]
-for i in range(10*sectionpoint):
-	FOR.append(i+1)
-#test
-myModel.fieldOutputRequests['F-Output-1'].setValues(sectionPoints=FOR)
-'''
+myModel.StaticStep(name=StaticStepName, previous=PreviousStepName,maxNumInc=MaxNumInc, initialInc=InitialInc, minInc=MinInc, maxInc=MaxInc)
+# myModel.FieldOutputRequest(name='F-Output-2',createStepName='Step-1', variables=('LE', 'S'), layupNames=(
+        'Part-plate-1.CompositeLayup-1', ), layupLocationMethod=ALL_LOCATIONS,rebar=EXCLUDE)
 
 #Create Load
 FaceFix=[]
@@ -170,8 +173,8 @@ myModel.XsymmBC(name='BC-Fixed', createStepName='Initial',
         region=region, localCsys=None)
 region = AssemblyPlate.sets['Set-Tensile']
 mdb.models['Model-1'].DisplacementBC(name='BC-Tensile', 
-        createStepName='Step-1', region=region, u1=2.68, u2=UNSET, u3=UNSET, 
-        ur1=UNSET, ur2=UNSET, ur3=UNSET, amplitude=UNSET, fixed=OFF, 
+        createStepName='Step-1', region=region, u1=xDis, u2=UNSET, u3=0, 
+        ur1=0, ur2=0, ur3=0, amplitude=UNSET, fixed=OFF, 
         distributionType=UNIFORM, fieldName='', localCsys=None)
 
 # Create Seed Control
@@ -197,6 +200,31 @@ for x in xarraylimit:
 		edge_seed =  PartPlate.edges.findAt(((x,y,height_plate/2),),)
 		PartPlate.seedEdgeByNumber(edges=edge_seed, number=seedNumber, constraint=seedConstraint)
 # Mesh
+# Mesh Control
+Meshxarray=np.arange(spacing_x/2,length,spacing_x)
+Meshyarray=np.arange(spacing_y/2,width,spacing_y)
+MeshCoordinateLocate=[]
+for ycoordinate in range(len(Meshyarray)):
+	for xcoordinate in range(len(Meshxarray)):
+		MeshCoordinateLocate.append((Meshxarray[xcoordinate],Meshyarray[ycoordinate],height_plate/2))
+for temp_y in range(len(Meshyarray)):
+	for temp_x in range(len(Meshxarray)):
+		temp_n = (temp_y * len(Meshxarray)) + temp_x
+		cells_part=PartPlate.cells.findAt(((MeshCoordinateLocate[temp_n][0], MeshCoordinateLocate[temp_n][1],height_plate/2),),)
+		face_part=PartPlate.faces.findAt(((MeshCoordinateLocate[temp_n][0], MeshCoordinateLocate[temp_n][1],height_plate),),)
+		edge_part=PartPlate.edges.findAt(((MeshCoordinateLocate[temp_n][0]-spacing_x/2,MeshCoordinateLocate[temp_n][1]-spacing_y/2,height_plate/2),),)
+		region=regionToolset.Region(cells=cells_part)
+		PartPlate.setMeshControls(regions=cy, technique=STRUCTURED, algorithm=ADVANCING_FRONT)
+		for FaceNum in cy[temp_n].getFaces():
+			FaceZvalue=face[FaceNum].pointOn[0][2]
+			if FaceZvalue == height_plate:
+				PartPlate.assignStackDirection(referenceRegion=face[FaceNum], cells=cells_part)
+				continue
+		# for EdgeNum in cy[temp_n].getEdges():
+		# 	EdgeZvalue=edge[EdgeNum].pointOn[0][2]
+		# 	if EdgeZvalue < height_plate and EdgeZvalue > 0.0:
+		# 		PartPlate.setSweepPath(region=cy[temp_n], edge=edge[EdgeNum], sense=FORWARD)
+		# 		continue
 PartPlate.generateMesh()
 elemType1 = mesh.ElemType(elemCode=SC8R, elemLibrary=STANDARD, 
         secondOrderAccuracy=OFF, hourglassControl=DEFAULT)
@@ -243,7 +271,9 @@ for Frame in range(len(Frames)):
 	strain=np.mean(Uarray)/(length*2)
 	xydata.append((strain,stress))
 ##Create XYplot
-xyplot = session.XYPlot('Curve-2')
+if session.xyPlots.has_key('Curve'):
+	xyplot = session.XYPlot('Curve-2')
+
 chartName = xyplot.charts.keys()[0]
 chart = xyplot.charts[chartName]
 xQuantity = visualization.QuantityType(type = STRAIN)
