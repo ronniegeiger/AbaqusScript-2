@@ -46,7 +46,8 @@ seedConstraint=FIXED
 odbfilename = 'Job-1.odb'
 CrossSectionalArea= width * height_plate
 # Load
-xDis=5
+# The engineering strain is required to be 3%
+xDis=0.03 * length
 # Create model
 if mdb.models.has_key("Model-1"):
     myModel = mdb.models["Model-1"]
@@ -96,7 +97,6 @@ v_origin = (0.0, 0.0, 0.0)
 v_xaxis = (length, 0.0, 0.0)
 v_yaxis = (length, width, 0.0)
 PartPlate.DatumCsysByThreePoints(origin=v_origin, point1=v_xaxis, point2=v_yaxis,name='Datum csys-2', coordSysType=CARTESIAN)
-os._exit
 #
 layupOrientation = None
 #cells1 = PartPlate.cells.findAt(((5.5, 8.3, 1.5),),)
@@ -125,7 +125,7 @@ for ycoordinate in range(len(yarray)):
 				continue
 		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],zarray[xcoordinate],ply)) 
 #CompositeLayup Predefine
-compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=CONTINUUM_SHELL, 
+compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=SOLID, 
         symmetric=False)
 compositeLayup.Section(preIntegrate=OFF, integrationRule=SIMPSON, 
         poissonDefinition=DEFAULT, thicknessModulus=None, temperature=GRADIENT, 
