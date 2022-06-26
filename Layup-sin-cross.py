@@ -100,22 +100,29 @@ layupOrientation = None
 #		Region.append(region)
 
 #Coordinate computation of x,y and z
+zarray_1=[]
+zarray_2=[]
 zarray=[]
 xarray=np.arange(spacing_x/2,length,spacing_x)
 yarray=np.arange(spacing_y/2,width,spacing_y)
 for i in range(len(xarray)):
-	zvalue=(height_plate/2)*sin(omega*xarray[i]+Firstphase) + (height_plate/2)#describing function
-	zarray.append(zvalue)
+	zvalue1=(height_plate/2)*sin(omega*xarray[i]+Firstphase_1) + (height_plate/2)#describing function
+	zvalue2=(height_plate/2)*sin(omega*xarray[i]+Firstphase_2) + (height_plate/2)#describing function
+	zarray_1.append(zvalue1)
+	zarray_2.append(zvalue2)
+Ply=[[0 for _ in range(num_plies)] for _ in range(len(xarray)*len(yarray))]
+
 #Combine the tri-axis coordinates
 CoordinateLocate=[]
 for ycoordinate in range(len(yarray)):
 	for xcoordinate in range(len(xarray)):
+		region_num = (ycoordinate * len(xarray)) + xcoordinate
 		for num_ply in range(num_plies):
-			if zarray[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
-				ply= num_ply + 1
+			if (zarray_1[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray_1[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1))) or (zarray_2[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray_2[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1))):
+				Ply[region_num][num_ply]=1
 			else:
 				continue
-		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],zarray[xcoordinate],ply)) 
+		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],height_plate/2))
 #CompositeLayup Predefine
 compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=SOLID, 
         symmetric=False)
@@ -133,7 +140,7 @@ for temp_y in range(len(yarray)):
 		cells_part=PartPlate.cells.findAt(((CoordinateLocate[temp_n][0], CoordinateLocate[temp_n][1],height_plate/2),),)
 		region=regionToolset.Region(cells=cells_part)
 		for num_ply in range(num_plies):
-			if (num_ply+1) == CoordinateLocate[temp_n][3]:
+			if (num_ply+1) == Ply[temp_n][num_ply]:
 				compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format((num_plies * temp_n) + num_ply + 1), region=region, material=MatrixMaterial, thicknessType=SPECIFY_THICKNESS, 
 				thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', 
 				axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
