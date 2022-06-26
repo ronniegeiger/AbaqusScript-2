@@ -23,9 +23,10 @@ num_DatumPlanes_x = int((length/spacing_x) -1.0)
 num_plies = 11
 ply=0
 sectionpoint=3
-#
+#Architecture Description Function
 omega=1.0
-Firstphase=1.57
+Firstphase_1=1.57
+Firstphase_2=3.0
 #Declare material
 ReinforceMaterial = 'CompositeLaminates'
 MatrixMaterial = 'AluminumAlloy_6061'
@@ -78,15 +79,6 @@ for num_DatumPlane_x in range(num_DatumPlanes_x):
 for i in range(len(da)):
 	num = i+2
 	PartPlate.PartitionCellByDatumPlane(datumPlane=da[num], cells=cy)
-# Display the view of PartPlate in Front
-# session.viewports['Viewport: 1'].setValues(displayedObject = PartPlate)
-# session.viewports['Viewport: 1'].view.setValues(session.views['Front'])
-# session.viewports['Viewport: 1'].partDisplay.geometryOptions.setValues(datumPlanes=OFF)
-# Highlight cy[n] to indicate the sequence of cells
-#for i in range(len(cy)):
-#	highlight(cy[i])
-#	time.sleep(0.01)
-#	unhighlight(cy[i])
 # Import material property form lib of materials
 from material import createMaterialFromDataString
 createMaterialFromDataString('Model-1', 'CompositeLaminates', '2019', 
