@@ -25,7 +25,7 @@ print('dp2_3:',dp2_3)
 # Summary: [0] * n is copy(eg.repeat a list n times, is '=' copy); [[0]* n] *m repeat '[0]*n' with n times.
 # 		   [0 for _ in range(n)] is createing, "DeepCopy".
 '''
-# '''
+'''
 import numpy as np
 import math
 from textRepr import *
@@ -61,6 +61,7 @@ for ycoordinate in range(len(yarray)):
 		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],height_plate/2))
 prettyPrint(Ply)
 '''
+'''
 import numpy as np
 num_plies = 11
 length = 38.0
@@ -75,3 +76,6 @@ Ply[0][1]=1
 Ply[0][2]=1
 print(Ply[0])
 '''
+# '''
+
+# '''
