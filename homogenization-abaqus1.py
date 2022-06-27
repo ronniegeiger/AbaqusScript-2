@@ -10,7 +10,7 @@ for irves in range(1):
     if irves==0:
         odbname='Job-1.odb'
         filename='HomogenizedStrain.txt'
-        filename1='HomogenizedStress.txt'        
+        filename1='HomogenizedStress.txt'
         
     odb = openOdb(odbname)
     scratchOdb = session.ScratchOdb(odb)   
