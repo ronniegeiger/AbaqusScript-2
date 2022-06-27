@@ -167,8 +167,7 @@ for y in np.arange(spacing_y/2,width,spacing_y):
 	FaceTensile.append(InstancePlate.faces.findAt(((length,y,height_plate/2),),))
 SetTensile=AssemblyPlate.Set(faces=FaceTensile, name='Set-Tensile')
 region = AssemblyPlate.sets['Set-Fixed']
-myModel.XsymmBC(name='BC-Fixed', createStepName='Initial', 
-        region=region, localCsys=None)
+myModel.XsymmBC(name='BC-Fixed', createStepName='Initial',region=region, localCsys=None)
 region = AssemblyPlate.sets['Set-Tensile']
 mdb.models['Model-1'].DisplacementBC(name='BC-Tensile', 
         createStepName='Step-1', region=region, u1=xDis, u2=UNSET, u3=0, 

@@ -1,2 +1,2 @@
 length_plate,width,height_plate,spacing_y,spacing_x,omega,Firstphase_1,Firstphase_2
-  38.0,  12.5,   3.0,   0.5,   0.5,   1.0,   0.0,   3.0
+  38.0,  12.5,   3.0,   0.5,   0.5,   1.0,   1.6,   3.0

@@ -77,5 +77,16 @@ Ply[0][2]=1
 print(Ply[0])
 '''
 # '''
-
+import matplotlib.pyplot as plt
+# Init variables
+length = 38.0
+width = 12.5
+height_plate = 3.0
+spacing_y=0.5
+spacing_x = 0.5
+num_DatumPlanes_y = int((width /spacing_y) -1.0)
+num_DatumPlanes_x = int((length/spacing_x) -1.0)
+num_plies = 11
+# 
+xarray=
 # '''
