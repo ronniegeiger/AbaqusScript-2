@@ -6,14 +6,12 @@ from odbAccess import *
 import string
 import visualization
 for irves in range(1):
-
     if irves==0:
         odbname='Job-1.odb'
         filename='HomogenizedStrain.txt'
         filename1='HomogenizedStress.txt'
-        
     odb = openOdb(odbname)
-    scratchOdb = session.ScratchOdb(odb)   
+    scratchOdb = session.ScratchOdb(odb)
     datum=scratchOdb.rootAssembly.DatumCsysByThreePoints(name='CSYS-1', coordSysType=CARTESIAN,
             origin=(0.0, 0.0, 0.0), point1=(0.0, 0.0, 1.0), point2=(0.0, 1.0, 0.0))
     S=[[0.0 for col in range(6)] for row in range (6)]
@@ -21,12 +19,9 @@ for irves in range(1):
 
     VRVE=[0.0 for row in range (6)]
 
-
     for j in range(6):
   
 	for i in range(len(odb.rootAssembly.instances)-1):
-    
-      
 	    Stepname = 'Step-' + str(j+1)  
 	    if i==0:
 	        InstanceName='PART-M-1'
@@ -34,15 +29,10 @@ for irves in range(1):
 	        InstanceName='PART-F-1'
 	    if i==2:
 	        InstanceName='PART-IN-1'
-        
-	    
-
 	    Instance = odb.rootAssembly.instances[InstanceName]
-    
+
 	    stressField1 = odb.steps[Stepname].frames[-1].fieldOutputs['S']
-  
 	    stressField=stressField1.getTransformedField(datumCsys=datum)
-        
 	    field1 = stressField.getSubset(region=Instance, position=INTEGRATION_POINT)
 	    field1Values = field1.values
 
@@ -58,8 +48,6 @@ for irves in range(1):
 	    evolField = odb.steps[Stepname].frames[-1].fieldOutputs['EVOL']
 	    field4 = evolField.getSubset(region=Instance, position=WHOLE_ELEMENT)
 	    field4Values = field4.values
-
-
 
 	    for v in range(len(field1Values)): 
   
@@ -115,7 +103,6 @@ for irves in range(1):
 	E5=E[j][4]
 	E6=E[j][3]
     '''
-  
     f=open(filename, 'w')
     f.write(str(E))
     '''
@@ -131,7 +118,6 @@ for irves in range(1):
 	f.write(str(E6))
     '''
     f.close()
-    
     '''
     for j in range(6):
 	S1=S[j][0]
@@ -141,7 +127,6 @@ for irves in range(1):
 	S5=S[j][4]
 	S6=S[j][3]
     '''
-
     f=open(filename1, 'w')
     f.write(str(S))
     '''
@@ -156,9 +141,7 @@ for irves in range(1):
 	f.write('\n')
 	f.write(str(S6))
     '''
-    
     f.close()
-
     odb.close()    
 
 
