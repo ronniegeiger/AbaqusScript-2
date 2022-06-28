@@ -77,7 +77,10 @@ Ply[0][2]=1
 print(Ply[0])
 '''
 # '''
+# import module
 import matplotlib.pyplot as plt
+import numpy as np
+import math
 # Init variables
 length = 38.0
 width = 12.5
@@ -87,6 +90,20 @@ spacing_x = 0.5
 num_DatumPlanes_y = int((width /spacing_y) -1.0)
 num_DatumPlanes_x = int((length/spacing_x) -1.0)
 num_plies = 11
+omega=1.0
+Firstphase_1=1.57
+Firstphase_2=3.0
 # 
-xarray=
+xarray=np.arange(spacing_x/2,length,0.01)
+zarray_1=[]
+zarray_2=[]
+for i in range(len(xarray)):
+	zvalue1=(height_plate/2)*math.sin(omega*xarray[i]+Firstphase_1) + (height_plate/2)#describing function
+	zvalue2=(height_plate/2)*math.sin(omega*xarray[i]+Firstphase_2) + (height_plate/2)
+	zarray_1.append(zvalue1)
+	zarray_2.append(zvalue2)
+plt.xlabel('x')
+plt.ylabel('z')
+plt.plot(xarray,zarray_1)
+plt.show()
 # '''
