@@ -270,9 +270,7 @@ for Frame in range(len(Frames)):
 	strain=np.mean(Uarray)/(length*2)
 	xydata.append((strain,stress))
 ##Create XYplot
-if session.xyPlots.has_key('Curve'):
-	xyplot = session.XYPlot('Curve-2')
-
+xyplot = session.XYPlot('Curve-2')
 chartName = xyplot.charts.keys()[0]
 chart = xyplot.charts[chartName]
 xQuantity = visualization.QuantityType(type = STRAIN)

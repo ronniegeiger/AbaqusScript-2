@@ -78,6 +78,7 @@ print(Ply[0])
 '''
 # '''
 # import module
+from cProfile import label
 import matplotlib.pyplot as plt
 import numpy as np
 import math
@@ -91,7 +92,7 @@ num_DatumPlanes_y = int((width /spacing_y) -1.0)
 num_DatumPlanes_x = int((length/spacing_x) -1.0)
 num_plies = 11
 omega=1.0
-Firstphase_1=1.57
+Firstphase_1=2.0
 Firstphase_2=3.0
 # 
 xarray=np.arange(spacing_x/2,length,0.01)
@@ -104,6 +105,7 @@ for i in range(len(xarray)):
 	zarray_2.append(zvalue2)
 plt.xlabel('x')
 plt.ylabel('z')
-plt.plot(xarray,zarray_1)
+plt.plot(xarray,zarray_1,color='red',label='1',marker='.')
+plt.plot(xarray,zarray_2,color='blue',label='2',marker='o')
 plt.show()
 # '''
