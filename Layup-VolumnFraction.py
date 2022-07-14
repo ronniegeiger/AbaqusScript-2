@@ -11,21 +11,25 @@ import visualization
 import regionToolset
 import numpy as np
 import os
+import random
 # -------------------------------------------
 # This Model is built with 3 plies in single region, generating by random module of python, and
 # caculating by while sentence.
 # -------------------------------------------
 ## initial variables
-length = 38.0
+length = 38.0# Half of actual plate length
+length_plate=length*2
 width = 12.5
 height_plate = 3.0
 spacing_y=0.5
 spacing_x = 0.5
 num_DatumPlanes_y = int((width /spacing_y) -1.0)
 num_DatumPlanes_x = int((length/spacing_x) -1.0)
-num_plies = 11
+num_plies = 10
 ply=0
+matrixplies=3#Matrix plies number in single region
 sectionpoint=3
+VolumnFraction=0.03 #30%
 
 #Declare material
 ReinforceMaterial = 'CompositeLaminates'
@@ -75,10 +79,17 @@ for num_DatumPlane_x in range(num_DatumPlanes_x):
 	pointOnX = (xOffsetValue,6.25,height_plate/2)
 	PartPlate.DatumPlaneByPointNormal(point=pointOnX, normal=edge[11])
 # Partition Cells
+'''
 for i in range(len(da)):
 	num = i+2
 	PartPlate.PartitionCellByDatumPlane(datumPlane=da[num], cells=cy)
 # 
-RegionNumber=len(cy)
-V=width*height_plate*length
-# V_a=
+'''
+RegionNumber=len(cy) # 1900
+V_Plate=width*height_plate*length
+V_singleA=matrixplies*spacing_x*spacing_y*(height_plate/num_plies) #Matrix plies volumn in single region
+V_a=VolumnFraction*V_Plate
+HoleNumber=V_a/V_singleA# a means architecture
+# print(HoleNumber)
+
+
