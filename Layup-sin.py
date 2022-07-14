@@ -91,14 +91,6 @@ v_yaxis = (length, width, 0.0)
 PartPlate.DatumCsysByThreePoints(origin=v_origin, point1=v_xaxis, point2=v_yaxis,name='Datum csys-2', coordSysType=CARTESIAN)
 #
 layupOrientation = None
-#cells1 = PartPlate.cells.findAt(((5.5, 8.3, 1.5),),)
-#Assign Material Property
-#Region=[]
-#for num_x in range(10):
-#	for num_y in range(10):
-#		region='X{num_X}Y{num_Y}'.format(num_X=num_x,num_Y=num_y)
-#		Region.append(region)
-
 #Coordinate computation of x,y and z
 zarray=[]
 xarray=np.arange(spacing_x/2,length,spacing_x)
