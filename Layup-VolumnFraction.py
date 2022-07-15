@@ -91,5 +91,41 @@ V_singleA=matrixplies*spacing_x*spacing_y*(height_plate/num_plies) #Matrix plies
 V_a=VolumnFraction*V_Plate
 HoleNumber=V_a/V_singleA# a means architecture
 # print(HoleNumber)
+# Import material property form lib of materials
+from material import createMaterialFromDataString
+createMaterialFromDataString('Model-1', 'CompositeLaminates', '2019', 
+        """{'materialIdentifier': '', 'description': '', 'elastic': {'temperatureDependency': OFF, 'moduli': LONG_TERM, 'noCompression': OFF, 'noTension': OFF, 'dependencies': 0, 'table': ((162000.0, 14900.0, 14900.0, 0.283, 0.283, 0.386, 5.7, 5.7, 5.4),), 'type': ENGINEERING_CONSTANTS}, 'name': 'CompositeLaminates'}""")
+createMaterialFromDataString('Model-1', 'AluminumAlloy_6061', '2019',"""{'name': 'AluminumAlloy_6061', 'elastic': {'temperatureDependency': OFF, 'moduli': LONG_TERM, 'noCompression': OFF, 'noTension': OFF, 'dependencies': 0, 'table': ((70000.0, 0.35),), 'type': ISOTROPIC}, 'density': {'temperatureDependency': OFF, 'table': ((2.7e-06,),), 'dependencies': 0, 'fieldName': '', 'distributionType': UNIFORM}, 'materialIdentifier': '', 'description': ''}""")
+# Create Datum csys
+v_origin = (0.0, 0.0, 0.0)
+v_xaxis = (length, 0.0, 0.0)
+v_yaxis = (length, width, 0.0)
+PartPlate.DatumCsysByThreePoints(origin=v_origin, point1=v_xaxis, point2=v_yaxis,name='Datum csys-2', coordSysType=CARTESIAN)
+#
+layupOrientation = None
+#Coordinate computation of x,y and z
+zarray=[]
+xarray=np.arange(spacing_x/2,length,spacing_x)
+yarray=np.arange(spacing_y/2,width,spacing_y)
+#Combine the tri-axis coordinates
+CoordinateLocate=[]
+for ycoordinate in range(len(yarray)):
+	for xcoordinate in range(len(xarray)):
+		CoordinateLocate.append([xarray[xcoordinate],yarray[ycoordinate],0])
+CoordinateNumber=list(range(len(CoordinateLocate)))
+HoleRegions=random.sample(CoordinateNumber,int(HoleNumber))
+HoleRegions.sort() #Sort the list
+for holeregion in HoleRegions:
+	CoordinateLocate[holeregion][2]=1
+# for Coordinatelocation in CoordinateLocate:
+# 	prettyPrint(Coordinatelocation)
 
-
+#CompositeLayup Predefine
+compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=SOLID,
+        symmetric=False)
+compositeLayup.Section(preIntegrate=OFF, integrationRule=SIMPSON,
+        poissonDefinition=DEFAULT, thicknessModulus=None, temperature=GRADIENT,
+        useDensity=OFF)
+compositeLayup.ReferenceOrientation(orientationType=GLOBAL, localCsys=None,
+        fieldName='', additionalRotationType=ROTATION_NONE, angle=0.0,
+        axis=AXIS_3, stackDirection=STACK_3)
