@@ -76,7 +76,7 @@ Ply[0][1]=1
 Ply[0][2]=1
 print(Ply[0])
 '''
-# '''
+'''
 # import module
 from cProfile import label
 import matplotlib.pyplot as plt
@@ -108,4 +108,14 @@ plt.ylabel('z')
 plt.plot(xarray,zarray_1,color='red',label='1',marker='.')
 plt.plot(xarray,zarray_2,color='blue',label='2',marker='o')
 plt.show()
+'''
+# '''
+try:
+	if 2>=1:
+		print('ss')
+		raise ValueError
+except ValueError:
+	exit(0)
+	print("The Volumn is wrong")
+
 # '''
