@@ -42,7 +42,7 @@ MaxInc=0.1
 seedNumber=1
 seedConstraint=FIXED
 #postprocessing
-odbfilename = 'Job-1.odb'
+# odbfilename = 'Job-1.odb'
 CrossSectionalArea= width * height_plate
 
 # Create model
@@ -221,6 +221,7 @@ mdb.jobs['Job-1'].waitForCompletion()
 # 1; require "import odbAccess"
 #odb = odbAccess.openOdb(path=odbfilename)
 # 2; require "import visualization"
+odbfilename=mdb.jobs.keys()[0]+'.odb'
 odb = session.openOdb(name='myodb',path=odbfilename,readOnly=True)
 Frames = odb.steps['Step-1'].frames
 #

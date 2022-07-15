@@ -44,7 +44,7 @@ MaxInc=0.1
 seedNumber=1
 seedConstraint=FIXED
 #postprocessing
-odbfilename = 'Job-1.odb'
+# odbfilename = 'Job-1.odb'
 CrossSectionalArea= width * height_plate
 # Load
 # The engineering strain is required to be 3%
@@ -248,6 +248,7 @@ mdb.jobs['Job-1'].waitForCompletion()
 # 1; require "import odbAccess"
 #odb = odbAccess.openOdb(path=odbfilename)
 # 2; require "import visualization"
+odbfilename=mdb.jobs.keys()[0]+'.odb'
 odb = session.openOdb(name='myodb',path=odbfilename,readOnly=True)
 Frames = odb.steps['Step-1'].frames
 #
@@ -268,9 +269,7 @@ for Frame in range(len(Frames)):
 	strain=np.mean(Uarray)/(length*2)
 	xydata.append((strain,stress))
 ##Create XYplot
-if session.xyPlots.has_key('Curve'):
-	xyplot = session.XYPlot('Curve-2')
-
+xyplot = session.XYPlot('Curve-2')
 chartName = xyplot.charts.keys()[0]
 chart = xyplot.charts[chartName]
 xQuantity = visualization.QuantityType(type = STRAIN)
