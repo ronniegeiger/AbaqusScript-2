@@ -42,7 +42,7 @@ MaxInc=0.1
 seedNumber=1
 seedConstraint=FIXED
 #postprocessing
-odbfilename = 'Job-1.odb'
+# odbfilename = 'Job-1.odb'
 CrossSectionalArea= width * height_plate
 
 # Create model
@@ -146,15 +146,6 @@ InstancePlate=AssemblyPlate.Instance(name=InstanceName, part=PartPlate, dependen
 # Create Step
 myModel.StaticStep(name=StaticStepName, previous=PreviousStepName, 
         maxNumInc=MaxNumInc, initialInc=InitialInc, minInc=MinInc, maxInc=MaxInc)
-#test
-'''
-FOR=[]
-for i in range(10*sectionpoint):
-	FOR.append(i+1)
-#test
-myModel.fieldOutputRequests['F-Output-1'].setValues(sectionPoints=FOR)
-'''
-
 #Create Load
 FaceFix=[]
 FaceTensile=[]
@@ -221,6 +212,7 @@ mdb.jobs['Job-1'].waitForCompletion()
 # 1; require "import odbAccess"
 #odb = odbAccess.openOdb(path=odbfilename)
 # 2; require "import visualization"
+odbfilename=mdb.jobs.keys()[0]+'.odb'
 odb = session.openOdb(name='myodb',path=odbfilename,readOnly=True)
 Frames = odb.steps['Step-1'].frames
 #
@@ -233,9 +225,9 @@ for Frame in range(len(Frames)):
 	U =Frames[Frame].fieldOutputs['U']
 	RFsubset=RF.getSubset(region=FOPSet).values
 	Usubset = U.getSubset(region=FOPSet).values
-	for RFvalue in range(len(RFsubset)): 
+	for RFvalue in range(len(RFsubset)):
 		RFarray.append(RFsubset[RFvalue].data[0]) #data[0] means RF1
-	for Uvalue in range(len(Usubset)): 
+	for Uvalue in range(len(Usubset)):
 		Uarray.append(Usubset[Uvalue].data[0])    #data[0] means U1
 	stress=np.mean(RFarray)/CrossSectionalArea
 	strain=np.mean(Uarray)/(length*2)
