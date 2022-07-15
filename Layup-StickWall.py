@@ -44,7 +44,7 @@ MaxInc=0.1
 seedNumber=1
 seedConstraint=FIXED
 #postprocessing
-odbfilename = 'Job-1.odb'
+# odbfilename = 'Job-1.odb'
 CrossSectionalArea= width * height_plate
 # Load
 # The engineering strain is required to be 3%
