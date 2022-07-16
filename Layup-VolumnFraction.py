@@ -17,20 +17,21 @@ import random
 # caculating by while sentence.
 # -------------------------------------------
 ## initial variables
-length = 4.0# Half of actual plate length
+length = 38.0 # Half of actual plate length
 length_plate=length*2
-width = 2.5
+width = 12.5
 height_plate = 3.0
 spacing_y=0.5
 spacing_x = 0.5
 num_DatumPlanes_y = int((width /spacing_y) -1.0)
 num_DatumPlanes_x = int((length/spacing_x) -1.0)
 num_plies = 10
+CompositeElementType=CONTINUUM_SHELL
 ply=0
-matrixplies=3#Matrix plies number in single region
 MatrixPlies=[1,3,5] #Change the plies when the matrixplies be changed
+matrixpliesnum=len(MatrixPlies) #Matrix plies number in single region
 sectionpoint=3
-VolumnFraction=0.03 #30%
+VolumnFraction=0.4 #40%
 #Declare material
 ReinforceMaterial = 'CompositeLaminates'
 MatrixMaterial = 'AluminumAlloy_6061'
@@ -48,11 +49,10 @@ MaxInc=0.1
 seedNumber=1
 seedConstraint=FIXED
 #postprocessing
-# odbfilename = 'Job-1.odb'
 CrossSectionalArea= width * height_plate
 # Load
 # The engineering strain is required to be 3%
-xDis=0.03 * length
+xDis=0.03 * length_plate
 # Create model
 if mdb.models.has_key("Model-1"):
     myModel = mdb.models["Model-1"]
@@ -85,7 +85,7 @@ for i in range(len(da)):
 # 
 RegionNumber=len(cy) # 1900
 V_Plate=width*height_plate*length
-V_singleA=matrixplies*spacing_x*spacing_y*(height_plate/num_plies) #Matrix plies volumn in single region
+V_singleA=matrixpliesnum*spacing_x*spacing_y*(height_plate/num_plies) #Matrix plies volumn in single region
 V_a=VolumnFraction*V_Plate
 HoleNumber=V_a/V_singleA# a means architecture
 # print(HoleNumber)
@@ -119,7 +119,7 @@ for holeregion in HoleRegions:
 # 	prettyPrint(Coordinatelocation)
 
 #CompositeLayup Predefine
-compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=SOLID,
+compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=CompositeElementType,
         symmetric=False)
 compositeLayup.Section(preIntegrate=OFF, integrationRule=SIMPSON,
         poissonDefinition=DEFAULT, thicknessModulus=None, temperature=GRADIENT,
