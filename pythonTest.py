@@ -109,7 +109,7 @@ plt.plot(xarray,zarray_1,color='red',label='1',marker='.')
 plt.plot(xarray,zarray_2,color='blue',label='2',marker='o')
 plt.show()
 '''
-# '''
+ '''
 try:
 	if 2>=1:
 		print('ss')
@@ -118,4 +118,11 @@ except ValueError:
 	exit(0)
 	print("The Volumn is wrong")
 
-# '''
+ '''
+#'''
+file_fundamentalinfo='HoleRegions'
+# Write the fundamental information to txt file
+with open('{}.txt'.format(file_fundamentalinfo),'w') as FI:
+    FI.write("The numbers of regions:{}\n".format(len(HoleNumber)))
+    FI.write('Length:{}\n'.format(HoleRegions))
+#'''
