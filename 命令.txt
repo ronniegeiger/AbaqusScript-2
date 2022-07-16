@@ -1,3 +1,4 @@
-# 提交到github
+﻿# 提交到github
 $ git remote add <repository name> <SSH> #添加远程仓库
 $ git push -u <repository name> <branch name>
+$ git push --set-upstream AbaqusScript master
