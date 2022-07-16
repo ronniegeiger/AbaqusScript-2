@@ -16,7 +16,7 @@ import random
 # This Model is built with 3 plies in single region, generating by random module of python, and
 # caculating by while sentence.
 # -------------------------------------------
-## initial variables
+# initial variables
 length = 38.0 # Half of actual plate length
 length_plate=length*2
 width = 12.5
