@@ -288,8 +288,6 @@ with open('{}.txt'.format(file_fundamentalinfo),'w') as FI:
     FI.write('Height:{}\n'.format(height_plate))
     FI.write('Architecture Function:Z={A}sin({omega}x+{FirstPhase})+{z0}'.format(A=(height_plate/2),omega=omega,FirstPhase=Firstphase,z0=(height_plate/2)))
     # FI.write() 
-# """
-# """ 
 # Export Data
 file_data='Data'
 with open('{}.txt'.format(file_data),'w') as DA:
