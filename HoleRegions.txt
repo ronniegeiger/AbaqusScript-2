@@ -1,2 +1,0 @@
-The numbers of regions:5
-[1, 32, 4, 56, 9]
