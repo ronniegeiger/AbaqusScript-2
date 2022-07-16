@@ -276,3 +276,12 @@ session.viewports['Viewport: 1'].setValues(displayedObject=xyplot)
 session.printToFile(fileName='./StressStrainCurve', format=PNG, 
         canvasObjects=(session.viewports['Viewport: 1'], ))
 mdb.saveAs(pathName='./Job1')
+# Export fundamental information
+file_fundamentalinfo='FundamentalInfo'
+# Write the fundamental information to txt file
+with open('{}.txt'.format(file_fundamentalinfo),'w') as FI:
+    FI.write("Initialize Variables:\n")
+    FI.write('Length:{}\n'.format(length))
+    FI.write('Width:{}\n'.format(width))
+    FI.write('Height:{}\n'.format(height_plate))
+    FI.write('Architecture Function:Z={A}sin({omega}x+{FirstPhase})+{z0}'.format(A=(height_plate/2),omega=omega,FirstPhase=Firstphase,z0=(height_plate/2)))
