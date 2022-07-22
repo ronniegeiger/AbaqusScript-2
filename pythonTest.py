@@ -119,7 +119,7 @@ except ValueError:
 	print("The Volumn is wrong")
 
 '''
-#'''
+'''
 HoleNumber=5
 file_name = 'HoleRegions'
 HoleRegions=[1,32,4,56,9]
@@ -127,4 +127,13 @@ HoleRegions=[1,32,4,56,9]
 with open('{}.txt'.format(file_name),'w') as FI:
     FI.write("The numbers of regions:{}\n".format(HoleNumber))
     FI.writelines(str(HoleRegions))
-#'''
+'''
+# '''
+num_plies = 11
+sectionpoint=3
+sectionPointsRegion=num_plies * sectionpoint
+line=list(range(sectionPointsRegion))
+for num in range(num_plies):
+	exec('Ply'+str(num)+'S'+'= %r' % 123)
+	print('Ply'+str(num)+'S'+':',eval('Ply'+str(num)+'S'))
+# '''

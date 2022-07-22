@@ -282,3 +282,7 @@ file_name='HoleRegions'
 with open('{}.txt'.format(file_name),'w') as FI:
     FI.write("The numbers of regions:{}\n".format(HoleNumber))
     FI.writelines(str(HoleRegions))
+xy = session.xyDataObjects['StreesStrainCurves']
+odb.userData.XYData('StreesStrainCurves', xy)
+odb.save()
+odb.close()

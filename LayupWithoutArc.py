@@ -254,3 +254,7 @@ session.viewports['Viewport: 1'].setValues(displayedObject=xyplot)
 session.printToFile(fileName='C:/temp/LayupScript/StressStrainCurve', format=PNG, 
         canvasObjects=(session.viewports['Viewport: 1'], ))
 mdb.saveAs(pathName='C:/temp/LayupScript/Jobs/Job1')
+xy = session.xyDataObjects['StreesStrainCurves']
+odb.userData.XYData('StreesStrainCurves', xy)
+odb.save()
+odb.close()
