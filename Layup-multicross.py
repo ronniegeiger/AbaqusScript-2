@@ -23,12 +23,16 @@ spacing_y=0.5
 spacing_x = 0.5
 num_DatumPlanes_y = int((width /spacing_y) -1.0)
 num_DatumPlanes_x = int((length/spacing_x) -1.0)
-num_plies = 11
+num_plies = 10
 ply=0
 sectionpoint=3
-#
-omega=1.0
-Firstphase=1.57
+#Describe function 
+omega1=1.0
+omega2=2.0
+omega3=3.0
+Firstphase1=1.57
+Firstphase2=2.57
+Firstphase3=3.57
 #Declare material
 ReinforceMaterial = 'CompositeLaminates'
 MatrixMaterial = 'AluminumAlloy_6061'
@@ -52,7 +56,7 @@ CrossSectionalArea= width * height_plate
 # The engineering strain is required to be 3%
 xDis=0.03 * length
 # ----------------------------------------------------------------------
-# The step next is building fundamental model of Plate.
+# The next steps is building fundamental model of Plate.
 # ----------------------------------------------------------------------
 # Create model
 if mdb.models.has_key("Model-1"):
@@ -98,14 +102,28 @@ PartPlate.DatumCsysByThreePoints(origin=v_origin, point1=v_xaxis, point2=v_yaxis
 #
 layupOrientation = None
 #Coordinate computation of x,y and z
-zarray=[]
+zarray1=[]
+zarray2=[]
+zarray3=[]
 xarray=np.arange(spacing_x/2,length,spacing_x)
 yarray=np.arange(spacing_y/2,width,spacing_y)
 for i in range(len(xarray)):
-	zvalue=(height_plate/2)*sin(omega*xarray[i]+Firstphase) + (height_plate/2)#describing function
-	zarray.append(zvalue)
+	zvalue1=(height_plate/2)*sin(omega1*xarray[i]+Firstphase1) + (height_plate/2) #describing function
+	zvalue2=(height_plate/2)*sin(omega2*xarray[i]+Firstphase2) + (height_plate/2) #describing function
+	zvalue3=(height_plate/2)*sin(omega3*xarray[i]+Firstphase3) + (height_plate/2) #describing function
+	zarray1.append(zvalue1)
+	zarray2.append(zvalue2)
+	zarray3.append(zvalue3)
+# ----------------------------------------------------------------------
+# This paragraph is using for describign the architecture.
+# ----------------------------------------------------------------------
 #Combine the tri-axis coordinates
 CoordinateLocate=[]
+for xcoordinate in range(len(xarray)):
+	for num_ply in range(num_plies):
+		if zarray1[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray1[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
+			ply1=1
+'''
 for ycoordinate in range(len(yarray)):
 	for xcoordinate in range(len(xarray)):
 		for num_ply in range(num_plies):
@@ -114,8 +132,9 @@ for ycoordinate in range(len(yarray)):
 			else:
 				continue
 		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],zarray[xcoordinate],ply)) 
+'''
 #CompositeLayup Predefine
-compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=SOLID, 
+compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=CONTINUUM_SHELL, 
         symmetric=False)
 compositeLayup.Section(preIntegrate=OFF, integrationRule=SIMPSON, 
         poissonDefinition=DEFAULT, thicknessModulus=None, temperature=GRADIENT, 
