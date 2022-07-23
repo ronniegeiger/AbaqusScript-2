@@ -11,7 +11,10 @@ import visualization
 import regionToolset
 import numpy as np
 import os
-
+# --------------------------------------------------------
+# The paragraph below described the neccesary parameter of
+# modules in abaqus.
+# --------------------------------------------------------
 ## initial variables
 length = 38.0
 width = 12.5
@@ -48,6 +51,9 @@ CrossSectionalArea= width * height_plate
 # Load
 # The engineering strain is required to be 3%
 xDis=0.03 * length
+# ----------------------------------------------------------------------
+# The step next is building fundamental model of Plate.
+# ----------------------------------------------------------------------
 # Create model
 if mdb.models.has_key("Model-1"):
     myModel = mdb.models["Model-1"]
@@ -73,8 +79,8 @@ for num_DatumPlane_x in range(num_DatumPlanes_x):
 	xOffsetValue = (num_DatumPlane_x + 1) * spacing_x
 	pointOnX = (xOffsetValue,6.25,height_plate/2)
 	PartPlate.DatumPlaneByPointNormal(point=pointOnX, normal=edge[11])
-# Partition Cells
 
+# Partition Cells
 for i in range(len(da)):
 	num = i+2
 	PartPlate.PartitionCellByDatumPlane(datumPlane=da[num], cells=cy)
