@@ -134,7 +134,9 @@ for temp_y in range(len(yarray)):
 				thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', 
 				axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
 #'''
-
+# -----------------------------------------------------
+# The program underlying is 
+# ----------------------------------------------------- 
 # Create Instance
 AssemblyPlate=myModel.rootAssembly
 InstancePlate=AssemblyPlate.Instance(name=InstanceName, part=PartPlate, dependent=DependentState)
@@ -235,7 +237,7 @@ mdb.jobs['Job-1'].waitForCompletion()
 #odb = odbAccess.openOdb(path=odbfilename)
 # 2; require "import visualization"
 odbfilename=mdb.jobs.keys()[0]+'.odb'
-odb = session.openOdb(name='myodb',path=odbfilename,readOnly=True)
+odb = session.openOdb(name='myodb',path=odbfilename,readOnly=False)
 Frames = odb.steps['Step-1'].frames
 #
 FOPSet=odb.rootAssembly.nodeSets['SET-TENSILE']

@@ -221,7 +221,7 @@ for i in os.listdir():
 # 1; require "import odbAccess"
 #odb = odbAccess.openOdb(path=odbfilename)
 # 2; require "import visualization"
-odb = session.openOdb(name='myodb',path=odbfilename,readOnly=True)
+odb = session.openOdb(name='myodb',path=odbfilename,readOnly=False)
 Frames = odb.steps['Step-1'].frames
 #
 FOPSet=odb.rootAssembly.nodeSets['SET-TENSILE']
