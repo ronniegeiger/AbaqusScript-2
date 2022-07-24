@@ -19,6 +19,7 @@ import os
 length = 38.0
 width = 12.5
 height_plate = 3.0
+length_plate=length*2
 spacing_y=0.5
 spacing_x = 0.5
 num_DatumPlanes_y = int((width /spacing_y) -1.0)
@@ -56,7 +57,7 @@ CompositeElementType=CONTINUUM_SHELL #SHELL(Defult), CONTINUUM_SHELL,SOLID
 CrossSectionalArea= width * height_plate
 # Load
 # The engineering strain is required to be 3%
-xDis=0.03 * length
+xDis=0.03 * length_plate
 # ----------------------------------------------------------------------
 # The next steps is building fundamental model of Plate.
 # ----------------------------------------------------------------------
