@@ -28,11 +28,11 @@ ply=0
 sectionpoint=3
 #Describe function 
 omega1=1.0
-omega2=5.0
-omega3=7.0
+omega2=1.0
+omega3=1.0
 Firstphase1=1.57
-Firstphase2=2.57
-Firstphase3=3.57
+Firstphase2=3.57
+Firstphase3=5.57
 #Declare material
 ReinforceMaterial = 'CompositeLaminates'
 MatrixMaterial = 'AluminumAlloy_6061'
@@ -121,15 +121,15 @@ for i in range(len(xarray)):
 #Combine the tri-axis coordinates
 CoordinateLocate=[]
 for xcoordinate in range(len(xarray)):
+	matrixplyarray=[]
 	for num_ply in range(num_plies):
-		matrixplyarray=[]
 		if zarray1[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray1[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
 			matrixplyarray.append(num_ply+1)
 		if zarray2[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray2[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
 			matrixplyarray.append(num_ply+1)
 		if zarray3[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray3[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
 			matrixplyarray.append(num_ply+1)
-		print('matrixplyarray:',matrixplyarray)
+	matrixplyarray=list(set(matrixplyarray)) # Remove duplicate elements from a list
 
 '''
 for ycoordinate in range(len(yarray)):
