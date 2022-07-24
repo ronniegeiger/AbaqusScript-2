@@ -86,13 +86,11 @@ for num_DatumPlane_x in range(num_DatumPlanes_x):
 	xOffsetValue = (num_DatumPlane_x + 1) * spacing_x
 	pointOnX = (xOffsetValue,6.25,height_plate/2)
 	PartPlate.DatumPlaneByPointNormal(point=pointOnX, normal=edge[11])
-# '''
+
 # Partition Cells
 for i in range(len(da)):
 	num = i+2
 	PartPlate.PartitionCellByDatumPlane(datumPlane=da[num], cells=cy)
-# '''
-
 # Import material property form lib of materials
 from material import createMaterialFromDataString
 createMaterialFromDataString('Model-1', 'CompositeLaminates', '2019', 
