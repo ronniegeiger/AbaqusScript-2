@@ -28,8 +28,8 @@ ply=0
 sectionpoint=3
 #Describe function 
 omega1=1.0
-omega2=2.0
-omega3=3.0
+omega2=5.0
+omega3=7.0
 Firstphase1=1.57
 Firstphase2=2.57
 Firstphase3=3.57
@@ -83,11 +83,12 @@ for num_DatumPlane_x in range(num_DatumPlanes_x):
 	xOffsetValue = (num_DatumPlane_x + 1) * spacing_x
 	pointOnX = (xOffsetValue,6.25,height_plate/2)
 	PartPlate.DatumPlaneByPointNormal(point=pointOnX, normal=edge[11])
-
+'''
 # Partition Cells
 for i in range(len(da)):
 	num = i+2
 	PartPlate.PartitionCellByDatumPlane(datumPlane=da[num], cells=cy)
+'''
 
 # Import material property form lib of materials
 from material import createMaterialFromDataString
@@ -109,10 +110,10 @@ xarray=np.arange(spacing_x/2,length,spacing_x)
 yarray=np.arange(spacing_y/2,width,spacing_y)
 for i in range(len(xarray)):
 	zvalue1=(height_plate/2)*sin(omega1*xarray[i]+Firstphase1) + (height_plate/2) #describing function
-	zvalue2=(height_plate/2)*sin(omega2*xarray[i]+Firstphase2) + (height_plate/2) #describing function
-	zvalue3=(height_plate/2)*sin(omega3*xarray[i]+Firstphase3) + (height_plate/2) #describing function
 	zarray1.append(zvalue1)
+	zvalue2=(height_plate/2)*sin(omega2*xarray[i]+Firstphase2) + (height_plate/2) #describing function
 	zarray2.append(zvalue2)
+	zvalue3=(height_plate/2)*sin(omega3*xarray[i]+Firstphase3) + (height_plate/2) #describing function
 	zarray3.append(zvalue3)
 # ----------------------------------------------------------------------
 # This paragraph is using for describign the architecture.
@@ -121,8 +122,15 @@ for i in range(len(xarray)):
 CoordinateLocate=[]
 for xcoordinate in range(len(xarray)):
 	for num_ply in range(num_plies):
+		matrixplyarray=[]
 		if zarray1[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray1[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
-			ply1=1
+			matrixplyarray.append(num_ply+1)
+		if zarray2[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray2[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
+			matrixplyarray.append(num_ply+1)
+		if zarray3[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray3[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
+			matrixplyarray.append(num_ply+1)
+		print('matrixplyarray:',matrixplyarray)
+
 '''
 for ycoordinate in range(len(yarray)):
 	for xcoordinate in range(len(xarray)):
@@ -132,6 +140,7 @@ for ycoordinate in range(len(yarray)):
 			else:
 				continue
 		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],zarray[xcoordinate],ply)) 
+'''
 '''
 #CompositeLayup Predefine
 compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=CONTINUUM_SHELL, 
@@ -143,7 +152,7 @@ compositeLayup.ReferenceOrientation(orientationType=GLOBAL, localCsys=None,
         fieldName='', additionalRotationType=ROTATION_NONE, angle=0.0, 
         axis=AXIS_3, stackDirection=STACK_3)
 #Project architecture to section layers
-#'''
+#
 for temp_y in range(len(yarray)):
 	for temp_x in range(len(xarray)):
 		temp_n = (temp_y * len(xarray)) + temp_x
@@ -158,7 +167,7 @@ for temp_y in range(len(yarray)):
 				compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format((num_plies * temp_n) + num_ply + 1), region=region, material=ReinforceMaterial, thicknessType=SPECIFY_THICKNESS, 
 				thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', 
 				axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
-#'''
+#
 # -----------------------------------------------------
 # The program underlying is 
 # ----------------------------------------------------- 
@@ -254,8 +263,6 @@ mdb.Job(name='Job-1', model='Model-1', description='', type=ANALYSIS,
         scratch='', resultsFormat=ODB, multiprocessingMode=DEFAULT, numCpus=1,numGPUs=0)
 mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
 mdb.jobs['Job-1'].waitForCompletion()
-
-
 #Postprocessing
 ## Two methods of opening odb file
 # 1; require "import odbAccess"
@@ -299,3 +306,4 @@ xy = session.xyDataObjects['StreesStrainCurves']
 odb.userData.XYData('StreesStrainCurves', xy)
 odb.save()
 odb.close()
+'''
