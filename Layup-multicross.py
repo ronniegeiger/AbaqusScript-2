@@ -172,7 +172,7 @@ for temp_y in range(len(yarray)):
 				compositeLayup.CompositePly(suppressed=False, plyName='Ply-{}'.format((num_plies * temp_n) + num_ply + 1), region=region, material=ReinforceMaterial, thicknessType=SPECIFY_THICKNESS, 
 				thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', 
 				axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
-'''
+# '''
 #
 # -----------------------------------------------------
 # The program underlying is 
@@ -312,4 +312,4 @@ xy = session.xyDataObjects['StreesStrainCurves']
 odb.userData.XYData('StreesStrainCurves', xy)
 odb.save()
 odb.close()
-'''
+# '''
