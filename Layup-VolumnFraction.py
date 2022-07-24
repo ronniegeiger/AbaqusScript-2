@@ -26,7 +26,6 @@ spacing_x = 0.5
 num_DatumPlanes_y = int((width /spacing_y) -1.0)
 num_DatumPlanes_x = int((length/spacing_x) -1.0)
 num_plies = 10
-CompositeElementType=CONTINUUM_SHELL
 ply=0
 MatrixPlies=[1,3,5] #Change the plies when the matrixplies be changed
 matrixpliesnum=len(MatrixPlies) #Matrix plies number in single region
@@ -48,6 +47,8 @@ MaxInc=0.1
 #Seed Control
 seedNumber=1
 seedConstraint=FIXED
+# Mesh
+CompositeElementType=CONTINUUM_SHELL #SHELL(Defult), CONTINUUM_SHELL,SOLID
 #postprocessing
 CrossSectionalArea= width * height_plate
 # Load

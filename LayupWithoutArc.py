@@ -42,6 +42,8 @@ MaxInc=0.1
 #Seed Control
 seedNumber=1
 seedConstraint=FIXED
+# Mesh
+CompositeElementType=CONTINUUM_SHELL #SHELL(Defult), CONTINUUM_SHELL,SOLID
 #postprocessing
 odbfilename = 'Job-1.odb'
 CrossSectionalArea= width * height_plate
@@ -115,7 +117,7 @@ for ycoordinate in range(len(yarray)):
 				continue
 		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],zarray[xcoordinate],ply)) 
 #CompositeLayup Predefine
-compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=CONTINUUM_SHELL, 
+compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=CompositeElementType, 
         symmetric=False)
 compositeLayup.Section(preIntegrate=OFF, integrationRule=SIMPSON, 
         poissonDefinition=DEFAULT, thicknessModulus=None, temperature=GRADIENT, 
