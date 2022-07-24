@@ -120,17 +120,22 @@ for i in range(len(xarray)):
 # ----------------------------------------------------------------------
 #Combine the tri-axis coordinates
 CoordinateLocate=[]
-for xcoordinate in range(len(xarray)):
-	matrixplyarray=[]
-	for num_ply in range(num_plies):
-		if zarray1[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray1[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
-			matrixplyarray.append(num_ply+1)
-		if zarray2[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray2[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
-			matrixplyarray.append(num_ply+1)
-		if zarray3[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray3[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
-			matrixplyarray.append(num_ply+1)
-	matrixplyarray=list(set(matrixplyarray)) # Remove duplicate elements from a list
-
+for ycoordinate in range(len(yarray)):
+	for xcoordinate in range(len(xarray)):
+		matrixplyarray=[]
+		for num_ply in range(num_plies):
+			if zarray1[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray1[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
+				matrixplyarray.append(num_ply+1)
+			if zarray2[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray2[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
+				matrixplyarray.append(num_ply+1)
+			if zarray3[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray3[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
+				matrixplyarray.append(num_ply+1)
+		matrixplyarray=list(set(matrixplyarray)) # Remove duplicate elements from a list
+		matrixplyarray.sort()
+		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],height_plate/2,matrixplyarray))
+		# print(CoordinateLocate[-1][3]) 
+# ---------------------------------------------------------------------------------------------------------------------------------------------
+# The previous version of architecture ply check function
 '''
 for ycoordinate in range(len(yarray)):
 	for xcoordinate in range(len(xarray)):
@@ -141,6 +146,8 @@ for ycoordinate in range(len(yarray)):
 				continue
 		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],zarray[xcoordinate],ply)) 
 '''
+# ---------------------------------------------------------------------------------------------------------------------------------------------
+
 '''
 #CompositeLayup Predefine
 compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=CONTINUUM_SHELL, 
