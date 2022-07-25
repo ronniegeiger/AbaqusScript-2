@@ -310,9 +310,9 @@ file_fundamentalinfo='FundamentalInfo'
 # Write the fundamental information to txt file
 with open('{}.txt'.format(file_fundamentalinfo),'w') as FI:
     FI.write("Initialize Variables:\n")
-    FI.write('Architecture Function:Z1={A}sin({omega}x+{FirstPhase})+{z0}'.format(A=(height_plate/2),omega=omega1,FirstPhase=Firstphase1,z0=(height_plate/2)))
-    FI.write('Architecture Function:Z2={A}sin({omega}x+{FirstPhase})+{z0}'.format(A=(height_plate/2),omega=omega2,FirstPhase=Firstphase2,z0=(height_plate/2)))
-    FI.write('Architecture Function:Z3={A}sin({omega}x+{FirstPhase})+{z0}'.format(A=(height_plate/2),omega=omega3,FirstPhase=Firstphase3,z0=(height_plate/2)))
+    FI.write('Architecture Function:Z1={A}sin({omega}x+{FirstPhase})+{z0}\n'.format(A=(height_plate/2),omega=omega1,FirstPhase=Firstphase1,z0=(height_plate/2)))
+    FI.write('Architecture Function:Z2={A}sin({omega}x+{FirstPhase})+{z0}\n'.format(A=(height_plate/2),omega=omega2,FirstPhase=Firstphase2,z0=(height_plate/2)))
+    FI.write('Architecture Function:Z3={A}sin({omega}x+{FirstPhase})+{z0}\n'.format(A=(height_plate/2),omega=omega3,FirstPhase=Firstphase3,z0=(height_plate/2)))
     FI.write('volumnfraction:', volumnfraction)
 # 
 odb.save()
