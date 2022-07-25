@@ -29,8 +29,8 @@ ply=0
 sectionpoint=3
 #Describe function 
 omega1=1.0
-omega2=1.0
-omega3=1.0
+omega2=0.5
+omega3=0.1
 Firstphase1=1.57
 Firstphase2=3.57
 Firstphase3=5.57
@@ -305,6 +305,8 @@ session.printToFile(fileName='./StressStrainCurve', format=PNG,
 mdb.saveAs(pathName='./Job1')
 xy = session.xyDataObjects['StreesStrainCurves']
 odb.userData.XYData('StreesStrainCurves', xy)
+xyp = session.xyPlots['Curve-2']
+session.viewports['Viewport: 1'].setValues(displayedObject=xyp)
 # Export fundamental information
 file_fundamentalinfo='FundamentalInfo'
 # Write the fundamental information to txt file
