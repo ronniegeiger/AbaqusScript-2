@@ -135,20 +135,6 @@ for ycoordinate in range(len(yarray)):
 		matrixplyarray.sort()
 		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],height_plate/2,matrixplyarray))
 		# print(CoordinateLocate[-1][3]) 
-# ---------------------------------------------------------------------------------------------------------------------------------------------
-# The previous version of architecture ply check function
-'''
-for ycoordinate in range(len(yarray)):
-	for xcoordinate in range(len(xarray)):
-		for num_ply in range(num_plies):
-			if zarray[xcoordinate] > ((height_plate/num_plies)*num_ply) and zarray[xcoordinate] <= ((height_plate/num_plies)*(num_ply + 1)):
-				ply= num_ply + 1
-			else:
-				continue
-		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],zarray[xcoordinate],ply)) 
-'''
-# ---------------------------------------------------------------------------------------------------------------------------------------------
-
 
 #CompositeLayup Predefine
 compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=CompositeElementType,symmetric=False)
@@ -310,6 +296,12 @@ session.printToFile(fileName='./StressStrainCurve', format=PNG,
 mdb.saveAs(pathName='./Job1')
 xy = session.xyDataObjects['StreesStrainCurves']
 odb.userData.XYData('StreesStrainCurves', xy)
+# Export fundamental information
+file_fundamentalinfo='FundamentalInfo'
+# Write the fundamental information to txt file
+with open('{}.txt'.format(file_fundamentalinfo),'w') as FI:
+    FI.write("Initialize Variables:\n")
+    FI.write('Architecture Function:Z={A}sin({omega}x+{FirstPhase})+{z0}'.format(A=(height_plate/2),omega=omega,FirstPhase=Firstphase,z0=(height_plate/2)))
 odb.save()
 odb.close()
 # '''
