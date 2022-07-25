@@ -135,19 +135,21 @@ for ycoordinate in range(len(yarray)):
 		matrixplyarray.sort()
 		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],height_plate/2,matrixplyarray))
 		# print(CoordinateLocate[-1][3]) 
+print('Status Report:Architecture Complete!')
 # Compute Volumn Fraction
 volumnmatrix=0
 Allvolumn=num_plies* len(CoordinateLocate)
 for CoordinateLocatesequnce in range(len(CoordinateLocate)):
 	volumnmatrix=volumnmatrix+len(CoordinateLocate[CoordinateLocatesequnce][3])
 volumnfraction=volumnmatrix/Allvolumn
-
+print(volumnfraction)
 #CompositeLayup Predefine
 compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=CompositeElementType,symmetric=False)
 compositeLayup.Section(preIntegrate=OFF, integrationRule=SIMPSON,poissonDefinition=DEFAULT, thicknessModulus=None, temperature=GRADIENT, 
         useDensity=OFF)
 compositeLayup.ReferenceOrientation(orientationType=GLOBAL, localCsys=None,fieldName='', additionalRotationType=ROTATION_NONE, angle=0.0, 
         axis=AXIS_3, stackDirection=STACK_3)
+print('Status Report:CompositeLayup complete!')
 #Project architecture to section layers
 #
 for temp_y in range(len(yarray)):
@@ -165,7 +167,7 @@ for temp_y in range(len(yarray)):
 				thickness=0.1, orientationType=ANGLE_0, additionalRotationType=ROTATION_NONE, additionalRotationField='', 
 				axis=AXIS_3, angle=0.0, numIntPoints=sectionpoint)
 # '''
-#
+print('Status Report:Material Assign complete!')
 # -----------------------------------------------------
 # The program underlying is 
 # ----------------------------------------------------- 
@@ -216,6 +218,7 @@ for x in xarraylimit:
 	for y in np.arange(spacing_y,width,spacing_y):
 		edge_seed =  PartPlate.edges.findAt(((x,y,height_plate/2),),)
 		PartPlate.seedEdgeByNumber(edges=edge_seed, number=seedNumber, constraint=seedConstraint)
+print('Status Report:Seed complete!')
 # Mesh
 # Mesh Control
 Meshxarray=np.arange(spacing_x/2,length,spacing_x)
@@ -251,7 +254,7 @@ elemType3 = mesh.ElemType(elemCode=UNKNOWN_TET, elemLibrary=STANDARD,
         secondOrderAccuracy=OFF, hourglassControl=DEFAULT)
 set_cy=PartPlate.Set(cells=cy, name='Set-cells')
 PartPlate.setElementType(regions=set_cy, elemTypes=(elemType1,elemType2,elemType3))
-
+print('Status Report:Mesh complete!')
 # Submit Job
 mdb.Job(name='Job-1', model='Model-1', description='', type=ANALYSIS, 
         atTime=None, waitMinutes=0, waitHours=0, queue=None, memory=90, 
