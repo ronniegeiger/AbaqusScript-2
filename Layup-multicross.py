@@ -135,6 +135,12 @@ for ycoordinate in range(len(yarray)):
 		matrixplyarray.sort()
 		CoordinateLocate.append((xarray[xcoordinate],yarray[ycoordinate],height_plate/2,matrixplyarray))
 		# print(CoordinateLocate[-1][3]) 
+# Compute Volumn Fraction
+volumnmatrix=0
+Allvolumn=num_plies* len(CoordinateLocate)
+for CoordinateLocatesequnce in range(len(CoordinateLocate)):
+	volumnmatrix=volumnmatrix+len(CoordinateLocate[CoordinateLocatesequnce][3])
+volumnfraction=volumnmatrix/Allvolumn
 
 #CompositeLayup Predefine
 compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=CompositeElementType,symmetric=False)
@@ -301,7 +307,11 @@ file_fundamentalinfo='FundamentalInfo'
 # Write the fundamental information to txt file
 with open('{}.txt'.format(file_fundamentalinfo),'w') as FI:
     FI.write("Initialize Variables:\n")
-    FI.write('Architecture Function:Z={A}sin({omega}x+{FirstPhase})+{z0}'.format(A=(height_plate/2),omega=omega,FirstPhase=Firstphase,z0=(height_plate/2)))
+    FI.write('Architecture Function:Z1={A}sin({omega}x+{FirstPhase})+{z0}'.format(A=(height_plate/2),omega=omega1,FirstPhase=Firstphase1,z0=(height_plate/2)))
+    FI.write('Architecture Function:Z2={A}sin({omega}x+{FirstPhase})+{z0}'.format(A=(height_plate/2),omega=omega2,FirstPhase=Firstphase2,z0=(height_plate/2)))
+    FI.write('Architecture Function:Z3={A}sin({omega}x+{FirstPhase})+{z0}'.format(A=(height_plate/2),omega=omega3,FirstPhase=Firstphase3,z0=(height_plate/2)))
+    FI.write('volumnfraction:', volumnfraction)
+# 
 odb.save()
 odb.close()
 # '''
