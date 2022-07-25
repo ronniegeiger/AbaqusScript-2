@@ -138,11 +138,11 @@ for ycoordinate in range(len(yarray)):
 print('Status Report:Architecture Complete!')
 # Compute Volumn Fraction
 volumnmatrix=0
-Allvolumn=num_plies* len(CoordinateLocate)
+Allvolumn=float(num_plies* len(CoordinateLocate))
 for CoordinateLocatesequnce in range(len(CoordinateLocate)):
-	volumnmatrix=volumnmatrix+len(CoordinateLocate[CoordinateLocatesequnce][3])
+	volumnmatrix=volumnmatrix+float(len(CoordinateLocate[CoordinateLocatesequnce][3]))
 volumnfraction=volumnmatrix/Allvolumn
-print(volumnfraction)
+print('MatrixVolumn:',volumnfraction)
 #CompositeLayup Predefine
 compositeLayup = PartPlate.CompositeLayup(name='CompositeLayup-1', description='', elementType=CompositeElementType,symmetric=False)
 compositeLayup.Section(preIntegrate=OFF, integrationRule=SIMPSON,poissonDefinition=DEFAULT, thicknessModulus=None, temperature=GRADIENT, 
