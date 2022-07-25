@@ -12,16 +12,16 @@ height_plate = 3.0
 spacing_x=0.5
 num_plies = 11
 omega1=1.0
-omega2=1.0
-omega3=1.0
+omega2=0.5
+omega3=0.1
 Firstphase1=1.57
-Firstphase2=3.57
-Firstphase3=5.57
+Firstphase2=1.57
+Firstphase3=1.57
 # architecture
 zarray1=[]
 zarray2=[]
 zarray3=[]
-xarray=np.arange(spacing_x/2,length,spacing_x)
+xarray=np.arange(spacing_x/2,length,0.01)
 for i in range(len(xarray)):
 	zvalue1=(height_plate/2)*math.sin(omega1*xarray[i]+Firstphase1) + (height_plate/2) #describing function
 	zarray1.append(zvalue1)
