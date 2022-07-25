@@ -13,10 +13,10 @@ spacing_x=0.5
 num_plies = 11
 omega1=1.0
 omega2=0.5
-omega3=1.0
+omega3=0.1
 Firstphase1=1.57
-Firstphase2=3.57
-Firstphase3=5.57
+Firstphase2=1.57
+Firstphase3=1.57
 # architecture
 zarray1=[]
 zarray2=[]
