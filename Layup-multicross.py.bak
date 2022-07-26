@@ -317,6 +317,7 @@ xy = session.xyDataObjects['StreesStrainCurves']
 odb.userData.XYData('StreesStrainCurves', xy)
 xyp = session.xyPlots['Curve-2']
 session.viewports['Viewport: 1'].setValues(displayedObject=xyp)
+
 # 
 odb.save()
 odb.close()
